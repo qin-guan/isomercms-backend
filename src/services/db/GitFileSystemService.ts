@@ -752,9 +752,12 @@ export default class GitFileSystemService {
           // TODO: To eliminate duplicate code by using a backoff or retry package
           // As a last resort, we do a force push to GitHub as EFS is the source of truth
           {
-            logger.info(
-              `Performing a force push to GitHub as earlier retries have failed for ${repoName}`
-            )
+            logger.info({
+              message: `Performing a force push to GitHub as earlier retries has failed`,
+              meta: {
+                repoName
+              }
+            })
             return ResultAsync.fromPromise(
               this.git
                 .cwd({ path: `${efsVolPath}/${repoName}`, root: false })
