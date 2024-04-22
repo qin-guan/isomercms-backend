@@ -763,9 +763,13 @@ export default class GitFileSystemService {
                 .cwd({ path: `${efsVolPath}/${repoName}`, root: false })
                 .push([...gitOptions, "--force"]),
               (error) => {
-                logger.error(
-                  `Both retries for git push have failed. Error when pushing ${repoName}: ${error}`
-                )
+                logger.error({
+                  error,
+                  message: 'Error when pushing. Both retries for git push have failed.',
+                  meta: {
+                      repoName,
+                  },
+                })
 
                 if (error instanceof GitError) {
                   return new GitFileSystemError(
